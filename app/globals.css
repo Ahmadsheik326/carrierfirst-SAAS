@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-200%) skewX(-12deg); }
+  100% { transform: translateX(200%) skewX(-12deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-shine {
+  animation: shine 1s ease-in-out;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Global — safe everywhere. This only affects native browser defaults
+   (form control chrome, unstyled text/background) and never overrides
+   an explicit Tailwind color class, so it doesn't affect the marketing
+   site's intentional dark sections at all. */
+html {
+  color-scheme: light;
+}
+
+/* Scoped to the dashboard portal only — forcing white backgrounds on
+   every input/select/textarea IS something we only want inside the
+   logged-in app, not on the marketing site. */
+.dashboard-scope input,
+.dashboard-scope select,
+.dashboard-scope textarea {
+  background-color: white !important;
+  color: #111827 !important;
+}
+
+.dashboard-scope input:-webkit-autofill,
+.dashboard-scope input:-webkit-autofill:hover,
+.dashboard-scope input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+.contact-input {
+
+width:100%;
+padding:16px 18px;
+
+background:rgba(255,255,255,0.04);
+
+border:1px solid rgba(255,255,255,0.1);
+
+border-radius:14px;
+
+color:white;
+
+font-size:14px;
+
+outline:none;
+
+transition:all .3s ease;
+
+}
+
+
+.contact-input::placeholder{
+
+color:rgba(255,255,255,.35);
+
+}
+
+
+.contact-input:focus{
+
+border-color:#c9a96e;
+
+background:rgba(255,255,255,.07);
+
+box-shadow:0 0 0 4px rgba(201,169,110,.12);
+
+}
+
+
+
+.contact-input option{
+
+background:#08090c;
+
+color:white;
+
+}

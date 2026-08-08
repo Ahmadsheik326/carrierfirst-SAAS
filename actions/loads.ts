@@ -57,13 +57,83 @@
 //   if (error) throw error;
 //   return data || [];
 // }
+// 'use server';
+
+// import { createClient } from '@/lib/supabase/server';
+// import { revalidatePath } from 'next/cache';
+
+// // ======================
+// // GET LOADS (your original function — restored)
+// // ======================
+// export async function getLoads() {
+//   const supabase = await createClient();
+//   const { data, error } = await supabase
+//     .from('loads')
+//     .select('*')
+//     .order('created_at', { ascending: false });
+    
+//   if (error) {
+//     console.error('getLoads error:', error);
+//     return [];
+//   }
+//   return data || [];
+// }
+
+// // ======================
+// // DELETE LOAD (new — with service role)
+// // ======================
+// export async function deleteLoad(loadId: string) {
+//   const supabase = await createClient();
+  
+//   // Check auth
+//   const { data: { user } } = await supabase.auth.getUser();
+//   if (!user) return { error: 'Not authenticated' };
+  
+//   // Check role
+//   const { data: userData } = await supabase
+//     .from('users')
+//     .select('role')
+//     .eq('id', user.id)
+//     .single();
+    
+//   const allowedRoles = ['admin', 'broker', 'broker_admin', 'super_admin'];
+//   if (!userData || !allowedRoles.includes(userData.role)) {
+//     return { error: 'Unauthorized' };
+//   }
+
+//   // Use service role to bypass RLS
+//   const { createClient: createServiceClient } = require('@supabase/supabase-js');
+//   const supabaseAdmin = createServiceClient(
+//     process.env.NEXT_PUBLIC_SUPABASE_URL,
+//     process.env.SUPABASE_SERVICE_ROLE_KEY
+//   );
+
+//   // Delete related records
+//   await supabaseAdmin.from('bids').delete().eq('load_id', loadId);
+//   await supabaseAdmin.from('quote_requests').delete().eq('load_id', loadId);
+  
+//   // Delete load
+//   const { data, error } = await supabaseAdmin
+//     .from('loads')
+//     .delete()
+//     .eq('id', loadId)
+//     .select();
+
+//   if (error) return { error: error.message };
+//   if (!data || data.length === 0) return { error: 'Load not found' };
+
+//   revalidatePath('/loads');
+//   revalidatePath('/load-board');
+  
+//   return { success: true };
+// }
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
 // ======================
-// GET LOADS (your original function — restored)
+// GET LOADS
 // ======================
 export async function getLoads() {
   const supabase = await createClient();
@@ -80,16 +150,51 @@ export async function getLoads() {
 }
 
 // ======================
-// DELETE LOAD (new — with service role)
+// CREATE LOAD
+// ======================
+export async function createLoad(loadData: {
+  shipper_name: string;
+  origin: string;
+  destination: string;
+  equipment_type: string;
+  mileage: number;
+  weight: number;
+  stops: number;
+  tarp: boolean;
+  region_x: boolean;
+}) {
+  const supabase = await createClient();
+  
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
+  const { data, error } = await supabase
+    .from('loads')
+    .insert({
+      ...loadData,
+      shipper_id: user.id,
+      status: 'pending',
+    })
+    .select()
+    .single();
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/loads');
+  revalidatePath('/load-board');
+  
+  return { success: true, data };
+}
+
+// ======================
+// DELETE LOAD
 // ======================
 export async function deleteLoad(loadId: string) {
   const supabase = await createClient();
   
-  // Check auth
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated' };
   
-  // Check role
   const { data: userData } = await supabase
     .from('users')
     .select('role')
@@ -101,18 +206,15 @@ export async function deleteLoad(loadId: string) {
     return { error: 'Unauthorized' };
   }
 
-  // Use service role to bypass RLS
   const { createClient: createServiceClient } = require('@supabase/supabase-js');
   const supabaseAdmin = createServiceClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  // Delete related records
   await supabaseAdmin.from('bids').delete().eq('load_id', loadId);
   await supabaseAdmin.from('quote_requests').delete().eq('load_id', loadId);
   
-  // Delete load
   const { data, error } = await supabaseAdmin
     .from('loads')
     .delete()

@@ -10,8 +10,20 @@ import Testimonials from "@/components/marketing/Testimonials";
 import Pricing from "@/components/marketing/Pricing";
 import CTA from "@/components/marketing/CTA";
 import Footer from "@/components/marketing/Footer";
+import { createClient as createServiceClient } from '@supabase/supabase-js';
 
-export default function HomePage() {
+const supabasePublic = createServiceClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export default async function HomePage() {
+  const { data: previewLoads } = await supabasePublic
+    .from('loads')
+    .select('load_id, origin, destination, equipment_type, bid_total, status')
+    .in('status', ['bidding', 'in_transit', 'delivered'])
+    .order('created_at', { ascending: false })
+    .limit(3);
   return (
     <>
       <Navbar />

@@ -204,6 +204,7 @@ export default function Sidebar({ role }: SidebarProps) {
     { id: 'documents', label: 'Document Vault', href: '/documents', icon: <DocIcon /> },
     { id: 'analytics', label: 'Analytics', href: '/analytics', icon: <AnalyticsIcon /> },
     { id: 'ltl', label: 'LTL Calculator', href: '/ltl-calculator', icon: <CalcIcon /> },
+    { id: 'lanes', label: 'Lane Postings', href: '/lanes', icon: <TruckIcon /> },
   ];
 
   const shipperNav: NavItem[] = [
@@ -212,6 +213,7 @@ export default function Sidebar({ role }: SidebarProps) {
     { id: 'myloads', label: 'My Loads', href: '/loads', icon: <LoadsIcon /> },
     { id: 'invoices', label: 'Invoices', href: '/invoices', icon: <InvoiceIcon /> },
     { id: 'documents', label: 'Documents', href: '/documents', icon: <DocIcon /> },
+    { id: 'lanes', label: 'Lane Postings', href: '/lanes', icon: <TruckIcon /> },
   ];
 
   const carrierNav: NavItem[] = [
@@ -220,6 +222,7 @@ export default function Sidebar({ role }: SidebarProps) {
     { id: 'myloads', label: 'My Loads', href: '/loads', icon: <TruckIcon />, badge: counts.myActive },
     { id: 'bids', label: 'My Bids', href: '/bids', icon: <BidIcon />, badge: counts.bids },
     { id: 'documents', label: 'Documents', href: '/documents', icon: <DocIcon /> },
+    { id: 'lanes', label: 'Lane Postings', href: '/lanes', icon: <TruckIcon /> },
   ];
 
   const items = role === 'broker_admin' || role === 'broker_staff' || role === 'super_admin'

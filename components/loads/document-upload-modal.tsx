@@ -37,16 +37,18 @@ export default function DocumentUploadModal({ loadId, docType, onClose }: Props)
         .upload(filePath, file);
       if (uploadErr) throw uploadErr;
 
-      const { error: insertErr } = await supabase.from('documents').insert({
-        load_id: loadId,
-        user_id: user.id,
-        file_name: file.name,
-        file_path: filePath,
-        file_type: docType,
-        document_type: docType,
-        file_size: file.size,
-        mime_type: file.type,
-      });
+     const { error: insertErr } = await supabase.from('documents').insert({
+  load_id: loadId,
+  user_id: user.id,
+  uploaded_by: user.id,        // ADD THIS
+  file_name: file.name,
+  file_path: filePath,
+  file_type: docType,
+  document_type: docType,
+  file_size: file.size,
+  mime_type: file.type,
+  status: 'approved',          // ADD THIS
+});
       if (insertErr) throw insertErr;
 
       router.refresh();

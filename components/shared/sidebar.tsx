@@ -191,20 +191,22 @@ export default function Sidebar({ role }: SidebarProps) {
   const brokerNav: NavItem[] = [
     { id: 'dashboard', label: 'Dashboard', href: '/dashboard', icon: <DashboardIcon /> },
     { id: 'loads', label: 'Load Board', href: '/loads', icon: <LoadsIcon /> },
+    { id: 'lanes', label: 'Lane Postings', href: '/lanes', icon: <TruckIcon /> },
     { id: 'quotes', label: 'Quote Requests', href: '/quotes', icon: <QuoteIcon />, badge: counts.quotes },
     { id: 'bids', label: 'Carrier Bids', href: '/bids', icon: <BidIcon /> },
     { id: 'calculator', label: 'DAT Calculator', href: '/calculator', icon: <CalcIcon /> },
+    { id: 'ltl', label: 'LTL Calculator', href: '/ltl-calculator', icon: <CalcIcon /> },
     { id: 'saved', label: 'Saved Quotes', href: '/saved-quotes', icon: <SaveIcon /> },
-    { id: 'pricing', label: 'Pricing Settings', href: '/pricing-settings', icon: <PricingIcon /> },
     { id: 'tracking', label: 'Load Tracking', href: '/tracking', icon: <TrackIcon /> },
     { id: 'carriers', label: 'Carriers', href: '/carriers', icon: <TruckIcon /> },
     { id: 'shippers', label: 'Shippers', href: '/shippers', icon: <FactoryIcon /> },
-    { id: 'credit', label: 'Credit Tracking', href: '/credit', icon: <CreditIcon /> },
     { id: 'invoices', label: 'Invoicing', href: '/invoices', icon: <InvoiceIcon /> },
     { id: 'documents', label: 'Document Vault', href: '/documents', icon: <DocIcon /> },
+    { id: 'credit', label: 'Credit Tracking', href: '/credit', icon: <CreditIcon /> },
+    { id: 'pricing', label: 'Pricing Settings', href: '/pricing-settings', icon: <PricingIcon /> },
     { id: 'analytics', label: 'Analytics', href: '/analytics', icon: <AnalyticsIcon /> },
-    { id: 'ltl', label: 'LTL Calculator', href: '/ltl-calculator', icon: <CalcIcon /> },
-    { id: 'lanes', label: 'Lane Postings', href: '/lanes', icon: <TruckIcon /> },
+    
+    
   ];
 
   const shipperNav: NavItem[] = [

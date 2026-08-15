@@ -50,7 +50,14 @@ export default async function ShippersPage() {
                 const available = (s.credit_limit || 0) - (s.credit_balance || 0);
                 return (
                   <tr key={s.id} className="border-b border-gray-100 last:border-0 align-top">
-                    <td className="px-4 py-3 font-medium">{s.company_name}</td>
+                    <td className="px-4 py-3 font-medium">
+  <Link 
+    href={`/shippers/${s.id}`} 
+    className="text-slate-900 hover:text-slate-700 hover:underline"
+  >
+    {s.company_name}
+  </Link>
+</td>
                     <td className="px-4 py-3 text-gray-600">{formatCurrency(s.credit_limit)}</td>
                     <td className="px-4 py-3 text-gray-600">{formatCurrency(s.credit_balance)}</td>
                     <td className={`px-4 py-3 font-medium ${available < 0 ? 'text-red-600' : 'text-gray-900'}`}>

@@ -45,7 +45,14 @@ export default async function CarriersPage() {
             <tbody>
               {carriers.map((c: any) => (
                 <tr key={c.id} className="border-b border-gray-100 last:border-0 align-top">
-                  <td className="px-4 py-3 font-medium">{c.company_name}</td>
+                  <td className="px-4 py-3 font-medium">
+  <Link 
+    href={`/carriers/${c.id}`} 
+    className="text-gray-900 hover:text-gray-700 hover:underline"
+  >
+    {c.company_name}
+  </Link>
+</td>
                   <td className="px-4 py-3 text-gray-600">{c.mc_number || '—'}</td>
                   <td className="px-4 py-3 text-gray-600">{c.dot_number || '—'}</td>
                   <td className="px-4 py-3 text-gray-600 capitalize">{c.insurance_status || '—'}</td>

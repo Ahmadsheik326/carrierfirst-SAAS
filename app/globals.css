@@ -1,109 +1,258 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================================
+   DASHBOARD DESIGN SYSTEM
+   One consistent visual language for every portal page — Loads,
+   Bids, Quotes, Lanes, Invoices, Documents, Dashboard, Pricing,
+   Carriers, Shippers, Analytics. Built on top of the table/scroll
+   pattern above, not replacing it.
 
-@layer base {
-  body {
-    @apply antialiased;
-  }
+   Brand tie-in: uses the same gold accent (#c9a96e) as the
+   marketing site, so the portal and the public site read as one
+   product instead of two different designs stitched together.
+   ============================================================ */
+
+:root {
+  --brand-gold: #c9a96e;
+  --brand-gold-dark: #b8945f;
+  --brand-ink: #0f172a;      /* primary text / dark UI surfaces */
+  --brand-ink-soft: #475569; /* secondary text */
+  --brand-border: #e2e8f0;
+  --brand-bg: #f8fafc;       /* page background */
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
 }
 
-@keyframes shine {
-  0% { transform: translateX(-200%) skewX(-12deg); }
-  100% { transform: translateX(200%) skewX(-12deg); }
+/* ---------- Page shell ---------- */
+
+.dashboard-scope {
+  background: var(--brand-bg);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-ink);
+  line-height: 1.2;
 }
 
-.animate-shine {
-  animation: shine 1s ease-in-out;
+.page-header p {
+  font-size: 0.875rem;
+  color: var(--brand-ink-soft);
+  margin-top: 0.25rem;
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+/* ---------- Cards & panels ---------- */
+
+.card {
+  background: white;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
+.card-padded {
+  padding: 1.5rem;
 }
 
-/* Global — safe everywhere. This only affects native browser defaults
-   (form control chrome, unstyled text/background) and never overrides
-   an explicit Tailwind color class, so it doesn't affect the marketing
-   site's intentional dark sections at all. */
-html {
-  color-scheme: light;
+.stat-card {
+  background: white;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Scoped to the dashboard portal only — forcing white backgrounds on
-   every input/select/textarea IS something we only want inside the
-   logged-in app, not on the marketing site. */
+.stat-card:hover {
+  border-color: rgba(201, 169, 110, 0.4);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.stat-card .stat-label {
+  font-size: 0.75rem;
+  color: var(--brand-ink-soft);
+  margin-bottom: 0.25rem;
+}
+
+.stat-card .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-ink);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-control);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--brand-ink);
+  color: white;
+}
+.btn-primary:hover {
+  background: #1e293b;
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-gold {
+  background: var(--brand-gold);
+  color: var(--brand-ink);
+}
+.btn-gold:hover {
+  background: var(--brand-gold-dark);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--brand-ink-soft);
+  border: 1px solid var(--brand-border);
+}
+.btn-secondary:hover {
+  background: #f1f5f9;
+  color: var(--brand-ink);
+}
+
+.btn-danger {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+.btn-danger:hover {
+  background: #fee2e2;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* ---------- Status badges ----------
+   One canonical set, covering every status value used across
+   loads, bids, quotes, invoices, and lanes. Existing pages that
+   compute their own color classes in JS can keep doing so, but
+   new/updated pages should use these instead of reinventing color
+   logic per page. */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  text-transform: capitalize;
+}
+
+.status-pending,
+.status-paused {
+  background: #fef9c3;
+  color: #854d0e;
+  border-color: #fde68a;
+}
+
+.status-approved,
+.status-active,
+.status-accepted,
+.status-booked {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.status-bidding,
+.status-in_transit,
+.status-picked_up {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+.status-delivered,
+.status-paid,
+.status-filled {
+  background: #ede9fe;
+  color: #5b21b6;
+  border-color: #ddd6fe;
+}
+
+.status-rejected,
+.status-declined,
+.status-overdue,
+.status-suspended,
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* ---------- Forms (dashboard scope only — matches the existing
+   input/select/textarea white-background rule above) ---------- */
+
+.dashboard-scope label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.375rem;
+}
+
 .dashboard-scope input,
 .dashboard-scope select,
 .dashboard-scope textarea {
-  background-color: white !important;
-  color: #111827 !important;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-control);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.dashboard-scope input:-webkit-autofill,
-.dashboard-scope input:-webkit-autofill:hover,
-.dashboard-scope input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: #111827 !important;
-}
-.contact-input {
-
-width:100%;
-padding:16px 18px;
-
-background:rgba(255,255,255,0.04);
-
-border:1px solid rgba(255,255,255,0.1);
-
-border-radius:14px;
-
-color:white;
-
-font-size:14px;
-
-outline:none;
-
-transition:all .3s ease;
-
+.dashboard-scope input:focus,
+.dashboard-scope select:focus,
+.dashboard-scope textarea:focus {
+  outline: none;
+  border-color: var(--brand-gold);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
 }
 
+/* ---------- Empty states ---------- */
 
-.contact-input::placeholder{
-
-color:rgba(255,255,255,.35);
-
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--brand-ink-soft);
 }
 
-
-.contact-input:focus{
-
-border-color:#c9a96e;
-
-background:rgba(255,255,255,.07);
-
-box-shadow:0 0 0 4px rgba(201,169,110,.12);
-
+.empty-state p:first-child {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--brand-ink);
 }
 
-
-
-.contact-input option{
-
-background:#08090c;
-
-color:white;
-
+.empty-state p:last-child {
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
 }

@@ -46,12 +46,14 @@ export default function LoadDocuments({ loadId, docs, canUploadRateCon, canUploa
       const { error: insertErr } = await supabase.from('documents').insert({
         load_id: loadId,
         user_id: user.id,
+         uploaded_by: user.id,
         file_name: file.name,
         file_path: filePath,
         file_type: docType,
         document_type: docType,
         file_size: file.size,
         mime_type: file.type,
+        status: 'approved', 
       });
       if (insertErr) throw insertErr;
 

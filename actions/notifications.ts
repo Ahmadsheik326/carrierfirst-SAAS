@@ -98,3 +98,14 @@ export async function notifyUser(input: {
     console.error('notifyUser error:', error);
   }
 }
+// Compatibility wrapper — matches the (userId, type, title, message, link)
+// call shape used in actions/lanes.ts, so that file doesn't need to change
+export async function notify(
+  userId: string,
+  type: NotificationType,
+  title: string,
+  message?: string,
+  link?: string
+) {
+  await notifyUser({ userId, type, title, body: message, link });
+}

@@ -1,5 +1,5 @@
 'use client';
-
+import NotificationBell from '@/components/shared/notification-bell';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -295,15 +295,18 @@ export default function Sidebar({ role }: SidebarProps) {
       {/* Mobile top bar — visible below lg breakpoint only */}
       <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between bg-white border-b border-slate-200 px-4 py-3">
         <span className="font-bold text-slate-900 text-sm tracking-wide">Carrier First Management</span>
-        <button
-          onClick={() => setMobileOpen(true)}
-          aria-label="Open menu"
-          className="text-slate-600 hover:text-slate-900 p-1.5 -mr-1.5"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
+        <div className="flex items-center gap-1">
+          <NotificationBell />
+          <button
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+            className="text-slate-600 hover:text-slate-900 p-1.5"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer overlay */}

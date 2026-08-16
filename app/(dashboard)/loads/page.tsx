@@ -415,7 +415,7 @@ export default async function LoadsPage() {
                         {capitalize(load.status)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right font-bold text-gray-900">{formatCurrency(load.bid_total || 0)}</td>
+                    <td className="px-6 py-4 text-right font-bold text-emerald-700">{formatCurrency(load.bid_total || 0)}</td>
                     {role === 'shipper' && (
                       <td className="px-6 py-4">
                         {pendingBids > 0 ? (

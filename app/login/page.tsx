@@ -450,7 +450,7 @@ export default function LoginPage() {
         email,
         password,
         options: {
-          emailRedirectTo: 'http://localhost:3001/login',
+          emailRedirectTo: '${window.location.origin}/login',
           data: {
             role,
             full_name: fullName,

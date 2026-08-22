@@ -87,8 +87,8 @@ export default function QuoteForm() {
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Load Specifications</h2>
-        <FreightCalculator onCalculate={handleCalculate} showSubmit />
-
+        {/* <FreightCalculator onCalculate={handleCalculate} showSubmit /> */}
+<FreightCalculator onCalculate={handleCalculate} showSubmit hideMargin />
         {calcResult && (
           <div className="mt-6 pt-6 border-t border-gray-200">
             <div className="flex items-center justify-between">

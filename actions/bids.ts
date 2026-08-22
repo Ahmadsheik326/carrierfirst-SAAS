@@ -42,6 +42,21 @@ export async function createBid(loadId: string, amount: number) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
+  // Gate: only approved carriers can bid. Pending carriers can still
+  // browse the load board — they just can't commit to a load yet.
+  const { data: carrierProfile } = await supabase
+    .from('carriers')
+    .select('status')
+    .eq('user_id', user.id)
+    .single();
+
+  if (carrierProfile?.status === 'pending') {
+    throw new Error('Your carrier account is pending approval. You can browse loads, but bidding is disabled until a broker reviews your profile.');
+  }
+  if (carrierProfile?.status === 'suspended') {
+    throw new Error('Your carrier account has been suspended. Contact support for details.');
+  }
+  
   // PROFESSIONAL: Check if load is already booked — reject bid
   const { data: load } = await supabase
     .from('loads')
@@ -104,6 +119,15 @@ export async function acceptBid(bidId: string) {
 
   if (bidErr || !bid) throw new Error('Bid not found');
 
+// ADD: fetch the load's shipper price so we can recompute margin correctly
+  const { data: load, error: loadFetchErr } = await supabase
+    .from('loads')
+    .select('bid_total')
+    .eq('id', bid.load_id)
+    .single();
+
+  if (loadFetchErr || !load) throw new Error('Load not found');
+
   const { error: acceptErr } = await supabase
     .from('bids')
     .update({ status: 'accepted' })
@@ -122,7 +146,8 @@ export async function acceptBid(bidId: string) {
     .update({
       status: 'booked',
       carrier_id: bid.carrier_id,
-      bid_total: bid.amount,
+      accepted_bid_amount: bid.amount,                     // NEW — the real settled amount
+      margin: (load.bid_total || 0) - bid.amount,           // margin now uses the real accepted amount
       updated_at: new Date().toISOString(),
     })
     .eq('id', bid.load_id);

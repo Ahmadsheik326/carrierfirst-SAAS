@@ -238,7 +238,13 @@ export default async function DashboardPage() {
     ];
   }
 
-  const recentLoads = role === 'shipper' ? myLoads.slice(0, 6) : allLoads.slice(0, 6);
+  // const recentLoads = role === 'shipper' ? myLoads.slice(0, 6) : allLoads.slice(0, 6);
+  const isCarrierRole = role === 'carrier';
+const recentLoads = role === 'shipper'
+  ? myLoads.slice(0, 6)
+  : isCarrierRole
+  ? allLoads.filter((l) => l.carrier_id === user?.id).slice(0, 6)
+  : allLoads.slice(0, 6);
 
   const roleLabel =
     role === 'broker_admin' || role === 'broker_staff' || role === 'super_admin' ? 'here\'s the full board' :
@@ -279,7 +285,9 @@ export default async function DashboardPage() {
                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Route</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Equipment</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-right text-xs font-semibold text-slate-300 uppercase tracking-wider">Bid Total</th>
+                {/* <th className="px-6 py-3 text-right text-xs font-semibold text-slate-300 uppercase tracking-wider">Bid Total</th> */}
+                <th className="px-6 py-3 text-right text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                {isCarrierRole ? 'Your Rate' : 'Bid Total'}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -300,7 +308,9 @@ export default async function DashboardPage() {
                       {capitalize(load.status)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right font-bold text-gray-900">{formatCurrency(load.bid_total || 0)}</td>
+                  {/* <td className="px-6 py-4 text-right font-bold text-gray-900">{formatCurrency(load.bid_total || 0)}</td> */}
+                  <td className="px-6 py-4 text-right font-bold text-gray-900">
+                   {formatCurrency((isCarrierRole ? load.carrier_rate ?? load.bid_total : load.bid_total) || 0)} </td>
                 </tr>
               ))}
               {recentLoads.length === 0 && (

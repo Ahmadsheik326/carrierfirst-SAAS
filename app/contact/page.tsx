@@ -11,7 +11,7 @@
 // };
 
 // const methods = [
-//   { icon: Phone, title: "Phone Support", desc: "Speak directly with our carrier support team", value: "(800) 555-0199", href: "tel:+18005550199", available: "24/7" },
+//   { icon: Phone, title: "Phone Support", desc: "Speak directly with our carrier support team", value: "(205) 238-6328", href: "tel:+12052386328", available: "24/7" },
 //   { icon: Mail, title: "Email Us", desc: "For sales, support, and general inquiries", value: "info@carrierfirst.com", href: "mailto:info@carrierfirst.com", available: "Response within 2 hrs" },
 //   { icon: MessageSquare, title: "Live Chat", desc: "Chat with a real human on our platform", value: "Start Chat", href: "#", available: "24/7" },
 //   { icon: MapPin, title: "Office", desc: "Carrier First Management, LLC", value: "Columbus, OH", href: "#", available: "Mon-Fri, 9AM-6PM EST" },
@@ -125,16 +125,16 @@ const methods = [
     icon: Phone,
     title: "Phone Support",
     desc: "Speak directly with our carrier support team",
-    value: "(800) 555-0199",
-    href: "tel:+18005550199",
+    value: "(205) 238-6328",
+    href: "tel: +12052386328",
     available: "24/7"
   },
   {
     icon: Mail,
     title: "Email Us",
     desc: "For sales, support, and general inquiries",
-    value: "info@carrierfirst.com",
-    href: "mailto:info@carrierfirst.com",
+    value: "carrierfirst@carrierfirst.com",
+    href: "mailto:carrierfirst@carrierfirst.com",
     available: "Response within 2 hrs"
   },
   {
@@ -149,7 +149,7 @@ const methods = [
     icon: MapPin,
     title: "Office",
     desc: "Carrier First Management, LLC",
-    value: "Columbus, OH",
+    value: "3229 BENT OAK DR MESQUITE, TX   75181-2950",
     href: "#",
     available: "Mon-Fri, 9AM-6PM EST"
   },

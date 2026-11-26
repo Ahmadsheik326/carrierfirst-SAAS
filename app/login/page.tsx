@@ -17,7 +17,7 @@ import Link from 'next/link';
 // redirect to /dashboard on login.
 //
 // LOGO — IMPORTANT: save the final Ordavane globe logo image as
-// public/ordavane-logo.png in the repo (the navy/teal globe with the gold
+// public/image.png in the repo (the navy/teal globe with the gold
 // orbit, "ORDAVANE" in navy, "HOLDINGS GROUP" in teal, on white). That is
 // the file this page displays, large, on plain white — no drawn logo.
 // ---------------------------------------------------------------------------
@@ -140,9 +140,9 @@ export default function LoginPage() {
       <div className="w-full max-w-md flex flex-col items-center">
         {/* Big real logo, plain white — no box, no background, no partition */}
         <div className="ov-fade ov-fade-1 flex flex-col items-center">
-          {/* Save the final globe logo as public/ordavane-logo.png */}
+          {/* Save the final globe logo as public/image.png */}
           <img
-            src="/ordavane-logo.png"
+            src="/image.png"
             alt="Ordavane Holdings Group"
             className="w-64 sm:w-72 h-auto"
           />
